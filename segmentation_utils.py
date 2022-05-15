@@ -23,18 +23,19 @@ class SegmentationMaskVisualizer:
         gs = gridspec.GridSpec(nrows=self.n_samples, ncols=2)
         colors = self.color_utils.create_n_hex_colors(self.n_classes)
         patches = [mpatches.Patch(color=colors[i], label=f"{self.labels[i]}") for i in range(len(self.labels))]
-
         cmap = [mpl.colors.ListedColormap(color) for color in colors]
+
         for index, (image, mask) in enumerate(zip(images, masks)):
             if index >= self.n_samples:
                 break
+            image = image[:,:,0]
             ax0 = fig.add_subplot(gs[index, 0])
             im = ax0.imshow(image, cmap='bone')
 
             ax1 = fig.add_subplot(gs[index, 1])
             if index == 0:
-                ax0.set_title("Image", fontsize=15, weight='bold', y=1.02)
-                ax1.set_title("Mask", fontsize=15, weight='bold', y=1.02)
+                ax0.set_title("Image", fontsize=12, weight='bold', y=1.02)
+                ax1.set_title("Mask", fontsize=12, weight='bold', y=1.02)
            
             plt.legend(handles=patches, 
                     bbox_to_anchor=(1.1, 0.65), 
@@ -58,7 +59,7 @@ class SegmentationMaskVisualizer:
 
     def visualize_mask_prediction_samples(self, images, predictions, masks):
         """Logic for visualising images + predictions + groundtruth"""
-        fig = plt.figure(figsize=(10, 25))
+        fig = plt.figure(figsize=(15, 30))
         gs = gridspec.GridSpec(nrows=self.n_samples, ncols=3)
         colors = self.color_utils.create_n_hex_colors(self.n_classes)
         patches = [mpatches.Patch(color=colors[i], label=f"{self.labels[i]}") for i in range(len(self.labels))]
@@ -67,6 +68,7 @@ class SegmentationMaskVisualizer:
         for index, (image, prediction, mask) in enumerate(zip(images, predictions, masks)):
             if index >= self.n_samples:
                 break
+            image = image[:,:,0]
             ax0 = fig.add_subplot(gs[index, 0])
             ax1 = fig.add_subplot(gs[index, 1])
             ax2 = fig.add_subplot(gs[index, 2])
@@ -104,9 +106,9 @@ class SegmentationMaskVisualizer:
                 
             _ = [ax.set_axis_off() for ax in [ax0, ax1, ax2]]
 
+
     def visualize_agreement_disagreement(self, images, predictions, masks):
         """Logic for visualising agreement b/w ground truth and predictions"""
-# -
 
 
 
